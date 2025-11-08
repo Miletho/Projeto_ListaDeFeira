@@ -4,8 +4,8 @@
 Hortalica::Hortalica(const std::string& n, int q, bool o) : Feira(n, q), organica(o) {}
 
 void Hortalica::exibirInfo() const {
-    std::cout << "[Hortaliça] " << nome
+    std::cout << "[HortaliÃ§a] " << nome
               << " | Quantidade: " << quantidade
-              << " | Orgânica: " << (organica ? "Sim" : "Não") << std::endl;
+              << " | OrgÃ¢nica: " << (organica ? "Sim" : "NÃ£o") << std::endl;
 }
 

@@ -4,7 +4,7 @@
 Acougue::Acougue(const std::string& n, int q, const std::string& c) : Feira(n, q), corte(c) {}
 
 void Acougue::exibirInfo() const {
-    std::cout << "[Açougue] " << nome
+    std::cout << "[AÃ§ougue] " << nome
               << " | Quantidade: " << quantidade
               << " | Corte: " << corte << std::endl;
 }

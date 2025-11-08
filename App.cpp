@@ -1,102 +1,154 @@
-#include "App.h"
 #include <iostream>
+#include <memory>
 #include <limits>
-#include <stdexcept>
+#include "App.h"
+#include "Hortalica.h"
+#include "AlimentoBase.h"
+#include "Acougue.h"
+#include "ProdutoLimpeza.h"
+#include "Doce.h"
+
+App::App() {}
 
 void App::menuAdicionar() {
     int tipo;
-    std::cout << "1. HortaliÁa\n2. Alimento Base\n3. AÁougue\n4. Produto de Limpeza\n5. Doce\nEscolha o tipo: ";
-    if (!(std::cin >> tipo)) throw std::invalid_argument("Entrada inv·lida!");
+    std::cout << std::endl << "--- Adicionar item √† feira ---" << std::endl;
+    std::cout << "1. Hortali√ßa" << std::endl;
+    std::cout << "2. Alimento Base" << std::endl;
+    std::cout << "3. A√ßougue" << std::endl;
+    std::cout << "4. Produto de Limpeza" << std::endl;
+    std::cout << "5. Doce" << std::endl;
+    std::cout << "Escolha o tipo (1-5): " << std::flush;
+
+    if (!(std::cin >> tipo)) {
+        throw std::invalid_argument("Entrada inv√°lida: espere um n√∫mero inteiro.");
+    }
 
     std::string nome;
-    int qtd;
+    int quantidade;
 
-    std::cout << "Nome: ";
-    std::cin.ignore();
+    std::cout << "Nome: " << std::flush;
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // limpa buffer
     std::getline(std::cin, nome);
-    std::cout << "Quantidade: ";
-    if (!(std::cin >> qtd)) throw std::invalid_argument("Entrada inv·lida!");
 
-    if (tipo == 1) {
-        char resp;
-        std::cout << "… org‚nica (s/n)? ";
-        std::cin >> resp;
-        bool org = (resp == 's' || resp == 'S');
-        lista.adicionar(new Hortalica(nome, qtd, organico));
+    std::cout << "Quantidade: " << std::flush;
+    if (!(std::cin >> quantidade)) {
+        throw std::invalid_argument("Entrada inv√°lida: espere um n√∫mero inteiro.");
     }
-    else if (tipo == 2) {
-        lista.adicionar(std::make_shared<AlimentoBase>(nome, qtd));
+
+    if (quantidade <= 0) {
+        throw std::logic_error("Quantidade deve ser um n√∫mero positivo.");
     }
-    else if (tipo == 3) {
-        std::string corte;
-        std::cout << "Tipo de corte: ";
-        std::cin.ignore();
-        std::getline(std::cin, corte);
-        lista.adicionar(new Acougue(nome, qtd, corte));
+
+    std::shared_ptr<Feira> item;
+
+    switch (tipo) {
+        case 1: {
+            char resp;
+            std::cout << "√â org√¢nica (s/n)? " << std::flush;
+            std::cin >> resp;
+            bool organico = (resp == 's' || resp == 'S');
+            item = std::make_shared<Hortalica>(nome, quantidade, organico);
+            break;
+        }
+        case 2:
+            item = std::make_shared<AlimentoBase>(nome, quantidade);
+            break;
+        case 3: {
+            std::string corte;
+            std::cout << "Tipo de corte: " << std::flush;
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::getline(std::cin, corte);
+            item = std::make_shared<Acougue>(nome, quantidade, corte);
+            break;
+        }
+        case 4: {
+            std::string uso;
+            std::cout << "Tipo de uso: " << std::flush;
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::getline(std::cin, uso);
+            item = std::make_shared<ProdutoLimpeza>(nome, quantidade, uso);
+            break;
+        }
+        case 5: {
+            char resp;
+            std::cout << "√â light (s/n)? " << std::flush;
+            std::cin >> resp;
+            bool light = (resp == 's' || resp == 'S');
+            item = std::make_shared<Doce>(nome, quantidade, light);
+            break;
+        }
+        default:
+            throw std::logic_error("Op√ß√£o fora do intervalo permitido!");
     }
-    else if (tipo == 4) {
-        std::string uso;
-        std::cout << "Uso (ex: cozinha, banheiro...): ";
-        std::cin.ignore();
-        std::getline(std::cin, uso);
-        lista.adicionar(new ProdutoLimpeza(nome, qtd, uso));
-    }
-    else if (tipo == 5) {
-    	char resp;
-    	std::cout << "… light (s/n)? ";
-    	std::cin >> resp;
-    	bool isLight = (resp == 's' || resp == 'S');
-    	lista.adicionar(new Doce(nome, qtd, isLight));
-	}
-    else {
-        throw std::invalid_argument("OpÁ„o inv·lida!");
-    }
+
+    lista.adicionar(item);
+    std::cout << "Item adicionado com sucesso!\n";
 }
 
 void App::executar() {
-    int opc;
+    int opcao;
+
     do {
-        std::cout << "\n====== LISTA DE FEIRA ======\n";
-        std::cout << "1. Adicionar item\n";
-        std::cout << "2. Listar itens\n";
-        std::cout << "3. Atualizar item\n";
-        std::cout << "4. Remover item\n";
-        std::cout << "0. Sair\nEscolha: ";
-        if (!(std::cin >> opc)) throw std::invalid_argument("Entrada inv·lida!");
+        std::cout << std::endl << "==== LISTA DE FEIRA ====" << std::endl;
+        std::cout << "1. Adicionar item" << std::endl;
+        std::cout << "2. Listar itens" << std::endl;
+        std::cout << "3. Atualizar quantidade" << std::endl;
+        std::cout << "4. Remover item" << std::endl;
+        std::cout << "5. Sair" << std::endl;
+        std::cout << "Escolha uma op√ß√£o: " << std::flush;  // üîπ for√ßa exibi√ß√£o imediata
+
+        if (!(std::cin >> opcao)) {
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cerr << "Erro: Entrada inv√°lida! Digite um n√∫mero." << std::endl;
+            continue;
+        }
 
         try {
-            switch (opc) {
-                case 1: menuAdicionar(); break;
-                case 2: lista.listar(); break;
+            switch (opcao) {
+                case 1:
+                    menuAdicionar();
+                    break;
+                case 2:
+                    lista.listar();
+                    break;
                 case 3: {
                     std::string nome;
-                    std::cout << "Nome do item a atualizar: ";
-                    std::cin.ignore();
+                    int novaQuantidade;
+                    std::cout << "Nome do item: " << std::flush;
+                    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
                     std::getline(std::cin, nome);
-                    lista.atualizar(nome);
+                    std::cout << "Nova quantidade: " << std::flush;
+                    if (!(std::cin >> novaQuantidade)) {
+                        throw std::invalid_argument("Entrada inv√°lida: espere um n√∫mero inteiro.");
+                    }
+                    lista.atualizar(nome, novaQuantidade);
                     break;
                 }
                 case 4: {
                     std::string nome;
-                    std::cout << "Nome do item a remover: ";
-                    std::cin.ignore();
+                    std::cout << "Nome do item para remover: " << std::flush;
+                    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
                     std::getline(std::cin, nome);
                     lista.remover(nome);
                     break;
                 }
-                case 0: std::cout << "Saindo...\n"; break;
-                default: throw std::invalid_argument("OpÁ„o inv·lida!");
+                case 5:
+                    std::cout << "Saindo..." << std::endl;
+                    break;
+                default:
+                    throw std::logic_error("Op√ß√£o fora do intervalo permitido!");
             }
-        }
-        catch (const std::invalid_argument& e) {
-            std::cerr << "?? Erro de argumento: " << e.what() << std::endl;
-            std::cin.clear();
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-        }
-        catch (const std::logic_error& e) {
-            std::cerr << "?? Erro lÛgico: " << e.what() << std::endl;
+        } catch (const std::invalid_argument& e) {
+            std::cerr << "Erro: " << e.what() << std::endl;
+        } catch (const std::logic_error& e) {
+            std::cerr << "Erro l√≥gico: " << e.what() << std::endl;
+        } catch (...) {
+            std::cerr << "Erro inesperado!" << std::endl;
         }
 
-    } while (opc != 0);
+        std::cout << std::flush;
+
+    } while (opcao != 5);
 }
-
