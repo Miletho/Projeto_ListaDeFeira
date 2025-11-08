@@ -28,7 +28,7 @@ void App::menuAdicionar() {
     int quantidade;
 
     std::cout << "Nome: " << std::flush;
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // limpa buffer
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     std::getline(std::cin, nome);
 
     std::cout << "Quantidade: " << std::flush;
@@ -96,7 +96,7 @@ void App::executar() {
         std::cout << "3. Atualizar quantidade" << std::endl;
         std::cout << "4. Remover item" << std::endl;
         std::cout << "5. Sair" << std::endl;
-        std::cout << "Escolha uma opção: " << std::flush;  // 🔹 força exibição imediata
+        std::cout << "Escolha uma opção: " << std::flush;
 
         if (!(std::cin >> opcao)) {
             std::cin.clear();
