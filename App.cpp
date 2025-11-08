@@ -12,6 +12,7 @@ App::App() {}
 
 void App::menuAdicionar() {
     int tipo;
+<<<<<<< HEAD
     std::cout << std::endl << "--- Adicionar item à feira ---" << std::endl;
     std::cout << "1. Hortaliça" << std::endl;
     std::cout << "2. Alimento Base" << std::endl;
@@ -23,6 +24,10 @@ void App::menuAdicionar() {
     if (!(std::cin >> tipo)) {
         throw std::invalid_argument("Entrada inválida: espere um número inteiro.");
     }
+=======
+    std::cout << "1. Hortaliça\n2. Alimento Base\n3. Açougue\n4. Produto de Limpeza\n5. Doce\nEscolha o tipo: ";
+    if (!(std::cin >> tipo)) throw std::invalid_argument("Entrada inválida!");
+>>>>>>> 2bdeb6f94528a5285883307e8200555d788fa00a
 
     std::string nome;
     int quantidade;
@@ -30,15 +35,28 @@ void App::menuAdicionar() {
     std::cout << "Nome: " << std::flush;
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // limpa buffer
     std::getline(std::cin, nome);
+<<<<<<< HEAD
 
     std::cout << "Quantidade: " << std::flush;
     if (!(std::cin >> quantidade)) {
         throw std::invalid_argument("Entrada inválida: espere um número inteiro.");
+=======
+    std::cout << "Quantidade: ";
+    if (!(std::cin >> qtd)) throw std::invalid_argument("Entrada inválida!");
+
+    if (tipo == 1) {
+        char resp;
+        std::cout << "É orgânica (s/n)? ";
+        std::cin >> resp;
+        bool org = (resp == 's' || resp == 'S');
+        lista.adicionar(std::make_shared<Hortalica>(nome, qtd, org));
+>>>>>>> 2bdeb6f94528a5285883307e8200555d788fa00a
     }
 
     if (quantidade <= 0) {
         throw std::logic_error("Quantidade deve ser um número positivo.");
     }
+<<<<<<< HEAD
 
     std::shared_ptr<Feira> item;
 
@@ -80,6 +98,31 @@ void App::menuAdicionar() {
         }
         default:
             throw std::logic_error("Opção fora do intervalo permitido!");
+=======
+    else if (tipo == 3) {
+        std::string corte;
+        std::cout << "Tipo de corte: ";
+        std::cin.ignore();
+        std::getline(std::cin, corte);
+        lista.adicionar(std::make_shared<Acougue>(nome, qtd, corte));
+    }
+    else if (tipo == 4) {
+        std::string uso;
+        std::cout << "Uso (ex: cozinha, banheiro...): ";
+        std::cin.ignore();
+        std::getline(std::cin, uso);
+        lista.adicionar(std::make_shared<ProdutoLimpeza>(nome, qtd, uso));
+    }
+    else if (tipo == 5) {
+        std::string sabor;
+        std::cout << "Sabor do doce: ";
+        std::cin.ignore();
+        std::getline(std::cin, sabor);
+        lista.adicionar(std::make_shared<Doce>(nome, qtd, sabor));
+    }
+    else {
+        throw std::invalid_argument("Opção inválida!");
+>>>>>>> 2bdeb6f94528a5285883307e8200555d788fa00a
     }
 
     lista.adicionar(item);
@@ -90,6 +133,7 @@ void App::executar() {
     int opcao;
 
     do {
+<<<<<<< HEAD
         std::cout << std::endl << "==== LISTA DE FEIRA ====" << std::endl;
         std::cout << "1. Adicionar item" << std::endl;
         std::cout << "2. Listar itens" << std::endl;
@@ -104,6 +148,15 @@ void App::executar() {
             std::cerr << "Erro: Entrada inválida! Digite um número." << std::endl;
             continue;
         }
+=======
+        std::cout << "\n====== LISTA DE FEIRA ======\n";
+        std::cout << "1. Adicionar item\n";
+        std::cout << "2. Listar itens\n";
+        std::cout << "3. Atualizar item\n";
+        std::cout << "4. Remover item\n";
+        std::cout << "0. Sair\nEscolha: ";
+        if (!(std::cin >> opc)) throw std::invalid_argument("Entrada inválida!");
+>>>>>>> 2bdeb6f94528a5285883307e8200555d788fa00a
 
         try {
             switch (opcao) {
@@ -134,6 +187,7 @@ void App::executar() {
                     lista.remover(nome);
                     break;
                 }
+<<<<<<< HEAD
                 case 5:
                     std::cout << "Saindo..." << std::endl;
                     break;
@@ -146,6 +200,19 @@ void App::executar() {
             std::cerr << "Erro lógico: " << e.what() << std::endl;
         } catch (...) {
             std::cerr << "Erro inesperado!" << std::endl;
+=======
+                case 0: std::cout << "Saindo...\n"; break;
+                default: throw std::invalid_argument("Opção inválida!");
+            }
+        }
+        catch (const std::invalid_argument& e) {
+            std::cerr << "⚠️ Erro de argumento: " << e.what() << std::endl;
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        }
+        catch (const std::logic_error& e) {
+            std::cerr << "⚠️ Erro lógico: " << e.what() << std::endl;
+>>>>>>> 2bdeb6f94528a5285883307e8200555d788fa00a
         }
 
         // 🔹 garante que o buffer de saída seja exibido antes do próximo loop
