@@ -6,14 +6,14 @@
 #include "Feira.h"
 
 class ListaDeFeira {
-private:
-    std::vector<std::shared_ptr<Feira>> itens;
+    private:
+        std::vector<std::shared_ptr<Feira>> itens;
 
-public:
-    void adicionar(std::shared_ptr<Feira> f);
-    void listar() const;
-    void atualizar(const std::string& nome);
-    void remover(const std::string& nome);
+    public:
+        void adicionar(std::shared_ptr<Feira> item);
+        void listar() const;
+        void remover(const std::string& nome);
+        void atualizar(const std::string& nome, int novaQuantidade);
 };
 
 #endif
