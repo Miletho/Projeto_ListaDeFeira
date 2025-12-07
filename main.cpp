@@ -1,13 +1,21 @@
 #include "App.h"
+#include "Configuracoes.h"
 #include <iostream>
-#include <stdexcept>
+
+Configuracoes configGlobal;
 
 int main() {
-    std::ios::sync_with_stdio(false);
-    std::cin.tie(nullptr);
+    configGlobal.carregar("config.txt");
+
+    std::cout << "==============================\n";
+    std::cout << " Tema: " << configGlobal.getTema() << "\n";
+    std::cout << " Usuario: " << configGlobal.getNome() << "\n";
+    std::cout << "==============================\n\n";
 
     App app;
     app.executar();
+
+    configGlobal.salvar("config.txt");
 
     return 0;
 }
