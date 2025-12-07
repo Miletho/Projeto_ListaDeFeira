@@ -1,15 +1,12 @@
-#ifndef PRODUTOLIMPEZA_H
-#define PRODUTOLIMPEZA_H
+#pragma once
+#include "ItemBase.h"
 
-#include "Feira.h"
+class ProdutoLimpeza : public ItemBase {
+private:
+    std::string uso;
 
-class ProdutoLimpeza : public Feira {
-	private:
-    	std::string uso;
-	public:
-    	ProdutoLimpeza(const std::string& n, int q, const std::string& u);
-    	void exibirInfo() const override;
+public:
+    ProdutoLimpeza(const std::string& nome_, double quantidade_, const std::string& uso_);
+
+    void exibirInfo() const override;
 };
-
-#endif
-
