@@ -1,15 +1,13 @@
-#ifndef ACOUGUE_H
-#define ACOUGUE_H
+#pragma once
+#include "ItemBase.h"
 
-#include "Feira.h"
+class Acougue : public ItemBase {
+private:
+    std::string corte;
 
-class Acougue : public Feira {
-	private:
-    	std::string corte;
-	public:
-    	Acougue(const std::string& n, int q, const std::string& c);
-    	void exibirInfo() const override;
+public:
+    Acougue(const std::string& nome_, double quantidade_, const std::string& corte_);
+
+    void exibirInfo() const override;
+
 };
-
-#endif
-
