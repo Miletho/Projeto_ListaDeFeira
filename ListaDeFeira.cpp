@@ -1,38 +1,56 @@
 #include "ListaDeFeira.h"
+#include "Excecoes.h"
 #include <iostream>
 #include <algorithm>
 
-void ListaDeFeira::adicionar(std::shared_ptr<Feira> item) {
-    itens.push_back(item);
+bool ListaDeFeira::nomeExiste(const std::string& nome) const {
+    for (const auto& it : itens) {
+        if (it->getNome() == nome) return true;
+    }
+    return false;
 }
 
-void ListaDeFeira::listar() const {
+bool ListaDeFeira::adicionarItem(const std::shared_ptr<ItemBase>& item) {
+    if (item == nullptr)
+        throw ErroItemInvalido("Item nulo.");
+
+    if (nomeExiste(item->getNome()))
+        throw ErroItemDuplicado(item->getNome());
+
+    itens.push_back(item);
+    return true;
+}
+
+bool ListaDeFeira::removerItem(const std::string& nome) {
+    for (auto it = itens.begin(); it != itens.end(); ++it) {
+        if ((*it)->getNome() == nome) {
+            itens.erase(it);
+            return true;
+        }
+    }
+    throw ErroItemNaoEncontrado(nome);
+}
+
+bool ListaDeFeira::atualizarQuantidade(const std::string& nome, double novaQuantidade) {
+    if (novaQuantidade <= 0)
+        throw ErroItemInvalido("Quantidade deve ser maior que zero.");
+
+    for (auto& it : itens) {
+        if (it->getNome() == nome) {
+            it->setQuantidade(novaQuantidade);
+            return true;
+        }
+    }
+    throw ErroItemNaoEncontrado(nome);
+}
+
+void ListaDeFeira::listarItens() const {
     if (itens.empty()) {
         std::cout << "Lista vazia.\n";
         return;
     }
-    for (auto& i : itens)
-        i->exibirInfo();
-}
-
-void ListaDeFeira::remover(const std::string& nome) {
-    for (auto it = itens.begin(); it != itens.end(); ++it) {
-        if ((*it)->getNome() == nome) {
-            itens.erase(it);
-            std::cout << "Item removido.\n";
-            return;
-        }
+    std::cout << "\n--- Lista de Feira ---\n";
+    for (const auto& it : itens) {
+        it->exibirInfo();
     }
-    std::cout << "Item não encontrado.\n";
-}
-
-void ListaDeFeira::atualizar(const std::string& nome, int novaQuantidade) {
-    for (auto& i : itens) {
-        if (i->getNome() == nome) {
-            i->setQuantidade(novaQuantidade);
-            std::cout << "Quantidade atualizada.\n";
-            return;
-        }
-    }
-    std::cout << "Item não encontrado.\n";
 }
