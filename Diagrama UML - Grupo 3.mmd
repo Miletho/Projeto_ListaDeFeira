@@ -1,0 +1,146 @@
+---
+config:
+  theme: neo-dark
+  layout: elk
+---
+classDiagram
+class IExibivel {
+  <<interface>>
+  +exibirInfo() const*
+}
+
+class IConfiguravel {
+  <<interface>>
+  +salvar(caminho: string)*
+  +carregar(caminho: string)*
+}
+
+class Nome {
+  <<abstract>>
+  -nome: string
+  +getNome() string
+  +setNome(n: string)*
+}
+
+class ItemBase {
+  <<abstract>>
+  -quantidade: double
+  +getQuantidade() double
+  +setQuantidade(q: double)
+  +exibirInfo() const*
+}
+
+Nome --|> ItemBase
+IExibivel ..|> ItemBase
+
+IConfiguravel ..|> Configuracoes
+
+class Configuracoes {
+  -nomeUsuario: string
+  -tema: string
+  +setNome(nome: string)
+  +setTema(tema: string)
+  +getNome() string
+  +getTema() string
+  +salvar(caminho: string)
+  +carregar(caminho: string)
+}
+
+class ErroConfiguracao {
+  <<exception>>
+}
+
+class ErroArquivo {
+  <<exception>>
+}
+
+class ErroItemInvalido {
+  <<exception>>
+}
+
+class ErroItemDuplicado {
+  <<exception>>
+}
+
+class ErroItemNaoEncontrado {
+  <<exception>>
+}
+
+ErroConfiguracao --> Configuracoes
+ErroArquivo --> Configuracoes
+ErroItemInvalido --> ListaDeFeira
+ErroItemDuplicado --> ListaDeFeira
+ErroItemNaoEncontrado --> ListaDeFeira
+
+class ListaDeFeira {
+  -itens: vector<shared_ptr<ItemBase>>
+  +adicionarItem(item)
+  +removerItem(nome)
+  +atualizarQuantidade(nome, quantidade)
+  +listarItens()
+}
+
+ItemBase --> ListaDeFeira
+
+class App {
+  -lista: ListaDeFeira
+  -lerInteiro(): int
+  -lerDouble(): double
+  -limparEntrada()
+  -menuAdicionar()
+  -menuListar()
+  -menuAtualizar()
+  -menuRemover()
+  -abrirConfiguracoes() 
+  +executar()
+}
+
+ListaDeFeira --> App
+
+class Doce {
+  -light: bool
+  +exibirInfo()
+}
+
+class Acougue {
+  -corte: string
+  +exibirInfo()
+}
+
+class Hortalica {
+  -organica: bool
+  +exibirInfo()
+}
+
+class AlimentoBase {
+  +exibirInfo()
+}
+
+class ProdutoLimpeza {
+  -uso: string
+  +exibirInfo()
+}
+
+class Higiene {
+  -uso: string
+  +exibirInfo()
+}
+
+class Remedio {
+  -uso: bool
+  +exibirInfo()
+}
+
+class Roupa {
+  -tamanho: string
+  +exibirInfo()
+}
+
+ItemBase --|> Doce
+ItemBase --|> Acougue
+ItemBase --|> Hortalica
+ItemBase --|> AlimentoBase
+ItemBase --|> ProdutoLimpeza
+ItemBase --|> Higiene
+ItemBase --|> Remedio
+ItemBase --|> Roupa
