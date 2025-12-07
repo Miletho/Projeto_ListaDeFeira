@@ -1,15 +1,12 @@
-#ifndef HORTALICA_H
-#define HORTALICA_H
+#pragma once
+#include "ItemBase.h"
 
-#include "Feira.h"
-
-class Hortalica : public Feira {
+class Hortalica : public ItemBase {
 private:
     bool organica;
+
 public:
-    Hortalica(const std::string& n, int q, bool o);
+    Hortalica(const std::string& nome_, double quantidade_, bool organica_);
+
     void exibirInfo() const override;
 };
-
-#endif
-
