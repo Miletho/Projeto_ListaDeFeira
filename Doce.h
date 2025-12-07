@@ -1,15 +1,12 @@
-#ifndef DOCE_H
-#define DOCE_H
+#pragma once
+#include "ItemBase.h"
 
-#include "Feira.h"
-
-class Doce : public Feira {
+class Doce : public ItemBase {
 private:
     bool light;
+
 public:
-    Doce(const std::string& n, int q, bool l);
+    Doce(const std::string& nome_, double quantidade_, bool light_);
+
     void exibirInfo() const override;
 };
-
-#endif
-
