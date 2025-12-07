@@ -1,13 +1,9 @@
-#ifndef ALIMENTOBASE_H
-#define ALIMENTOBASE_H
+#pragma once
+#include "ItemBase.h"
 
-#include "Feira.h"
+class AlimentoBase : public ItemBase {
+public:
+    AlimentoBase(const std::string& nome_, double quantidade_);
 
-class AlimentoBase : public Feira {
-	public:
-    	AlimentoBase(const std::string& n, int q);
-    	void exibirInfo() const override;
+    void exibirInfo() const override;
 };
-
-#endif
-
