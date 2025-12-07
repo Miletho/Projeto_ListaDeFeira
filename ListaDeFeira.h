@@ -1,19 +1,21 @@
-#ifndef LISTADEFEIRA_H
-#define LISTADEFEIRA_H
+#pragma once
 
 #include <vector>
 #include <memory>
-#include "Feira.h"
+#include <string>
+#include "ItemBase.h"
 
 class ListaDeFeira {
-    private:
-        std::vector<std::shared_ptr<Feira>> itens;
+private:
+    std::vector<std::shared_ptr<ItemBase>> itens;
 
-    public:
-        void adicionar(std::shared_ptr<Feira> item);
-        void listar() const;
-        void remover(const std::string& nome);
-        void atualizar(const std::string& nome, int novaQuantidade);
+public:
+    ListaDeFeira() = default;
+
+    bool nomeExiste(const std::string& nome) const;
+
+    bool adicionarItem(const std::shared_ptr<ItemBase>& item);
+    bool removerItem(const std::string& nome);
+    bool atualizarQuantidade(const std::string& nome, double novaQuantidade);
+    void listarItens() const;
 };
-
-#endif
