@@ -17,5 +17,9 @@ O programa permite **adicionar, listar, atualizar e remover itens**, aplicando c
 
 ## Estrutura do Projeto
 
-O código está organizado em múltiplos arquivos, seguindo boas práticas de separação de interface e implementação.
+O código está organizado em múltiplos arquivos, seguindo boas práticas de separação de interface e implementação, contendo:
+- Mais de 11 classes;
+  - Incluindo 2 interfaces e 2 classes abstratas;
+- CRUD para 8 entidades distintas (Açougue, AlimentoBase, Doce, Higiene, Hortaliça, ProdutoLimpeza, Remédio e Roupa);
+- Tratamento de exceções;
 
