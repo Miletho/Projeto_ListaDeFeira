@@ -1,16 +1,21 @@
-#ifndef APP_H
-#define APP_H
-
+#pragma once
 #include "ListaDeFeira.h"
 
 class App {
 private:
     ListaDeFeira lista;
 
-public:
-    App();
+    int lerInteiro();
+    double lerDouble();
+    void limparEntrada();
+
     void menuAdicionar();
+    void menuListar();
+    void menuAtualizar();
+    void menuRemover();
+    void abrirConfiguracoes();
+
+public:
+    App() = default;
     void executar();
 };
-
-#endif
